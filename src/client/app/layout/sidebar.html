@@ -1,0 +1,138 @@
+<div class="kk-left" ng-controller="app.layout.SidebarController as vm">
+    <div class="logo">
+        快聊
+    </div>
+    <div class="head-img" ui-sref="user.index">
+        <img class="am-circle am-img-responsive" ng-src="{{vm.cur_user.head}}" alt=""/>
+    </div>
+    <div class="list">
+        <ul>
+            <li ui-sref="rooms.index">
+                <a href="javascript:;">
+                    <i class="am-icon-comments"></i>
+                    <br/>
+                    大厅
+                </a>
+            </li>
+            <li ui-sref="friends.index">
+                <a href="javascript:;">
+                    <i class="am-icon-user"></i>
+                    <br/>
+                    好友
+                </a>
+            </li>
+            <!--<li>-->
+                <!--<a href="javascript:;">-->
+                    <!--<i class="am-icon-users"></i>-->
+                    <!--<br/>-->
+                    <!--收藏-->
+                <!--</a>-->
+            <!--</li>-->
+        </ul>
+    </div>
+    <div class="list bottom">
+        <ul>
+            <li ng-click="vm.showSearch()">
+                <a href="javascript:;">
+                    <i class="am-icon-plus"></i>
+                    <br/>
+                    添加
+                </a>
+            </li>
+            <li ui-sref="user.index">
+                <a href="javascript:;">
+                    <i class="am-icon-gears"></i>
+                    <br/>
+                    设置
+                </a>
+            </li>
+            <li ng-click="vm.logout()">
+                <a href="javascript:;">
+                    <i class="am-icon-sign-out"></i>
+                    <br/>
+                    退出
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="modal fade" id="my-search" class="my-search">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title "><i class="am-icon-search"></i> 查找</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                <div>
+
+                    <!--<div>-->
+                        <!--<div class="head">-->
+                            <!--<img class="am-round am-img-responsive" ng-src="{{vm.cur_user.head}}" alt="">-->
+                        <!--</div>-->
+                        <!--<h1>{{vm.cur_user.nick_name}} <br/> <small>{{vm.cur_user.desc}}</small></h1>-->
+                    <!--</div>-->
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li ng-click="vm.index = 0" ng-class="{active:vm.index == 0}"><a href="javascript:;">好友</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane" ng-class="{active:vm.index == 0}">
+                            <div class="step step1" ng-show="vm.step == 1">
+                                <form class="form-inline am-margin-vertical">
+                                    <div class="form-group">
+                                        <label class="sr-only"></label>
+                                        <input type="text" ng-model="vm.condition" class="form-control" placeholder="请输入账号/昵称">
+                                    </div>
+
+                                    <button ng-click="vm.searchUser()" class="btn btn-default">查找</button>
+                                </form>
+                                <div class="row">
+                                    <div class="col-sm-6 kk-box" ng-repeat="user in vm.users.data" ng-show="vm.users.data.length > 0">
+                                        <div class="kk-box-hd" ng-mouseover="vm.showOneUser($event,user)" ng-mouseout="vm.closeOneUser()">
+                                            <img class="am-img-responsive" ng-src="{{user.head}}" alt=""/>
+                                        </div>
+                                        <div class="kk-box-bd">
+                                            <h4 class="kk-box-title">{{user.nick_name}}</h4>
+                                            <p class="kk-box-desc">{{user.desc}}</p>
+                                            <button type="button" ng-click="vm.goToStep2(user._id)" class="btn btn-default btn-xs">加为好友</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12" ng-show="vm.users.data.length == 0">
+                                        不存在该用户
+                                    </div>
+
+                                </div>
+                                <ul item="vm.cur_page" widget-paginate="vm.users" widget-paginate-go="vm.goPage" class="am-pagination am-pagination-right"></ul>
+
+                            </div>
+                            <div class="step step2" ng-show="vm.step == 2">
+                                <form class="am-margin-top">
+                                    <div class="form-group">
+                                        <label>请输入验证信息(选填)：</label>
+                                        <input type="text" class="form-control" ng-model="vm.params.msg" placeholder="请输入验证信息">
+                                    </div>
+                                    <button type="button" ng-click="vm.sendFriendMsg()"  class="am-fr btn btn-default btn-xs">确定</button>
+
+                                </form>
+                                <button type="button" ng-click="vm.step = 1" class="btn btn-default btn-xs">上一步</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

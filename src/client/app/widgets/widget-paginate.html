@@ -1,0 +1,22 @@
+<li ng-show="pages.length>1 " ng-class="{'am-disabled': item ==1}" ><a href="javascript:;" ng-click="paginateGo(item-1)">&laquo;</a></li>
+<li ng-if="pages.length>1 && pages.length<=7" ng-repeat="n in pages track by $index" ng-class="{'am-active': $index+1 == item}">
+    <a href="javascript:;"  ng-click="paginateGo($index+1)">{{n}}</a>
+</li>
+<li ng-if="pages.length>7" ng-class="{'am-active':item == 1}">
+    <a href="javascript:;"  ng-click="paginateGo(1)">1</a>
+</li>
+<strong ng-if="pages.length>7 && item >= 5">...</strong>
+<li ng-if="pages.length>7 && $middle && item < 5 && $index < 6" ng-repeat="n in pages track by $index" ng-class="{'am-active': $index+1 == item}">
+    <a href="javascript:;"  ng-click="paginateGo($index+1)">{{n}}</a>
+</li>
+<li ng-if="pages.length>7 && $middle && item >= 5 && item <= pages.length-3 && $index > item-4 && $index < item+2" ng-repeat="n in pages track by $index" ng-class="{'am-active': $index+1 == item}">
+    <a href="javascript:;"  ng-click="paginateGo($index+1)">{{n}}</a>
+</li>
+<li ng-if="pages.length>7 && $middle && item > pages.length-3 && $index > pages.length-6" ng-repeat="n in pages track by $index" ng-class="{'am-active': $index+1 == item}">
+    <a href="javascript:;"  ng-click="paginateGo($index+1)">{{n}}</a>
+</li>
+<strong ng-if="pages.length>7 && item < pages.length-3">...</strong>
+<li ng-if="pages.length>7" ng-class="{'am-active': item == pages.length}">
+    <a href="javascript:;"  ng-click="paginateGo(pages.length)">{{pages.length}}</a>
+</li>
+<li ng-show="pages.length>1" ng-class="{'am-disabled': item == pages.length}"><a href="javascript:;" ng-click="paginateGo(item+1)">&raquo;</a></li>

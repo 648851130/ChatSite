@@ -1,0 +1,298 @@
+
+
+<div class="kk-right" style="margin-left: 80px">
+    <div class="topbar">
+        <span data-toggle="modal" data-target="#my-create-room">{{vm.room.theme}}
+            <a ng-if="vm.room.creator != vm.cur_user._id" href="javascript:;">查看</a>
+            <a ng-if="vm.room.creator == vm.cur_user._id" href="javascript:;">修改</a>
+        </span>
+    </div>
+    <div class="content">
+
+        <div class="right">
+            <div class="list" ng-repeat="o in vm.onlineUsers" ng-mouseover="vm.showOneUser($event,o)" ng-mouseout="vm.closeOneUser()">
+                <img class="am-round" ng-src="{{o.head}}" alt="">
+                <span class="am-text-middle">{{o.nick_name}}</span>
+            </div>
+
+
+
+        </div>
+
+        <div class="left" style="margin-right: 150px">
+            <div class="window" id="window" ng-style="{height:vm.height}">
+                <div class="am-comments-list am-comments-list-flip J-comment">
+                    <div class="my-comment" ng-style="{'height':vm.getHeight($index)}"  ng-repeat="t in vm.talkRecord.data">
+                        <p ng-if="vm.timeShow($index)" class="text-muted am-text-center J-time">{{vm.moment(t.meta.createAt).format('YYYY-MM-DD H:m')}}</p>
+                        <p ng-if="t.tip" class="am-text-center J-tip"> <span class="am-badge am-badge-success am-round">{{t.tip}}</span></p>
+                        <div ng-if="!t.tip" class="am-comment" ng-class="{'am-comment-flip':t.from._id == vm.cur_user._id}">
+
+                            <a class="" href="#link-to-user-home">
+                                <img ng-src="{{t.from.head}}" alt="" class="am-comment-avatar" width="48" height="48"/>
+                            </a>
+
+                            <div class="name">
+                                {{t.from.nick_name}}
+                            </div>
+                            <div class="am-comment-main" ng-if="t.type == 'text'" ng-bind-html="vm.html(t.content)">
+                            </div>
+                            <div class="am-comment-main" ng-if="t.type == 'audio'">
+
+                                <audio controls>
+                                    <source src="{{t.content}}" type="audio/mpeg">
+                                    <source src="{{t.content}}" type="audio/ogg">
+                                    <embed height="50" width="100" src="{{t.content}}">
+                                </audio>
+                            </div>
+                            <div class="am-comment-main" ng-if="t.type == 'video'">
+
+                                <video id="really-cool-video" class="video-js vjs-default-skin" controls
+                                       preload="auto" width="640" height="264"
+                                       data-setup='{}'>
+                                    <source src="{{t.content}}" type="video/mp4">
+                                    <p class="vjs-no-js">
+                                        To view this video please enable JavaScript, and consider upgrading to a web browser
+                                        that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                    </p>
+                                </video>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <div class="talk">
+                <div class="operation">
+                    <ul>
+                        <li class="dropdown dropup" data-toggle="tooltip" data-placement="bottom" title="表情">
+                            <i class="am-icon-smile-o dropdown-toggle" id="my-emoj"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                            <div class="dropdown-menu clearfix kk-emoj" aria-labelledby="my-emoj">
+                                <div class="col-md-1 one" ng-repeat="e in vm.emoj" ng-if="$index != 0">
+                                    <img ng-src="/emoj/{{e}}" ng-click="vm.addImg('/emoj/' + e)"  alt=""/>
+                                </div>
+                            </div>
+                        </li>
+                        <li data-toggle="tooltip" data-placement="bottom" title="图片">
+                            <div class="am-form-group am-form-file kk-file" style="display: inline;">
+                                <i class="am-icon-picture-o"></i>
+                                <input type="file" multiple="multiple" class="uploader">
+                            </div>
+                        </li>
+
+                        <li class="dropdown dropup" data-toggle="tooltip" data-placement="bottom" title="语音">
+                            <i class="am-icon-microphone dropdown-toggle" id="my-audio"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                            <div class="dropdown-menu voice" aria-labelledby="my-audio">
+                                <div class="saying">
+                                    <div class="level">
+                                    </div>
+                                    <div class="progress"></div>
+                                </div>
+
+                                <div class="am-text-center">
+                                    <button type="button" class="btn btn-default btn-xs"
+                                            onclick="FWRecorder.record('audio', 'audio.mp3');">开始说话</button>
+
+                                    <button type="button" class="btn btn-default btn-xs" ng-click="vm.stopAndSend()">
+                                        结束并发送
+                                    </button>
+
+                                    <div class="upload" style="display: inline-block">
+                                        <div id="flashcontent">
+                                            <p>您的浏览器需要开启javascript并且安装了flash才能使用</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- Hidden form for easy specifying the upload request parameters -->
+                                <form id="uploadForm" name="uploadForm" action="{{vm.action}}" method="post">
+                                    <input name="authenticity_token" value="xxxxx" type="hidden">
+                                    <input name="upload_file[parent_id]" value="1" type="hidden">
+                                    <input name="format" value="json" type="hidden">
+                                </form>
+                            </div>
+                        </li>
+                        <li class="dropdown dropup kk-video" data-toggle="tooltip" data-placement="bottom" title="视频">
+                            <i class="am-icon-video-camera dropdown-toggle" id="my-video"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                            <div class="dropdown-menu" aria-labelledby="my-video">
+                                <video id="myVideo" class="video-js vjs-default-skin"></video>
+
+                            </div>
+                        </li>
+                        <li class="text-muted am-margin-left">
+                            按ctrl+enter发送
+                        </li>
+                        <li class="fr" data-toggle="modal" data-target="#record-model" data-toggle="tooltip" data-placement="bottom" title="聊天记录">
+                            <i class="am-icon-clock-o"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="write" contenteditable="true" ng-model="vm.talk.content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="modal fade" id="record-model" tabindex="-1" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">聊天记录</h4>
+            </div>
+            <div class="modal-body" style="max-height:300px;overflow-y: auto">
+                <div class="record am-margin-bottom" ng-repeat="m in vm.msgRecord.data">
+                    [{{vm.moment(m.meta.createAt).format('YYYY-MM-DD H:m:s')}}] {{m.from.nick_name}}:
+                    <div ng-if="m.type == 'text'" ng-bind-html="vm.html(m.content)">
+                    </div>
+                    <div ng-if="m.type == 'audio'">
+
+                        <audio controls>
+                            <source src="{{m.content}}" type="audio/mpeg">
+                            <source src="{{m.content}}" type="audio/ogg">
+                            <embed height="50" width="100" src="{{m.content}}">
+                        </audio>
+                    </div>
+                    <div ng-if="m.type == 'video'">
+
+                        <video class="video-js vjs-default-skin" controls
+                               preload="auto" width="640" height="264"
+                               data-setup='{}'>
+                            <source src="{{m.content}}" type="video/mp4">
+                            <p class="vjs-no-js">
+                                To view this video please enable JavaScript, and consider upgrading to a web browser
+                                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                            </p>
+                        </video>
+                    </div>
+                </div>
+                <ul item="vm.cur_page" widget-paginate="vm.msgRecord" widget-paginate-go="vm.goPage" class="am-pagination am-pagination-right"></ul>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="my-create-room" ng-if="vm.room.creator == vm.cur_user._id">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title ">修改房间</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" ng-submit="vm.submit()">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">房间名</label>
+                        <div class="col-sm-9">
+                            <input required type="text" class="form-control" ng-model="vm.room.theme">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">配图</label>
+                        <div class="col-sm-9">
+                            <div class="am-form-group am-form-file">
+                                <button type="button" class="am-btn am-btn-sm am-btn-default"><i
+                                        class="am-icon-cloud-upload"></i>
+                                    选择要上传的图片
+                                </button>
+                                <input type="file" class="uploader">
+                            </div>
+                            <img ng-src="{{vm.room.pic}}" ng-show="vm.room.pic">
+                            <br/>
+                            <span>{{vm.upload_msg}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-9">
+                            <select required ng-options="item as item for item in vm.option"
+                                    class="form-control" ng-model="vm.room.type">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-9">
+                            <textarea required class="form-control" rows="3" ng-model="vm.room.desc"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">提交</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="my-create-room" ng-if="vm.room.creator != vm.cur_user._id">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title ">房间信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">房间名</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{vm.room.theme}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">配图</label>
+                        <div class="col-sm-9">
+
+                            <img ng-src="{{vm.room.pic}}" ng-show="vm.room.pic">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{vm.room.type}}</p>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{vm.room.desc}}</p>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,10 @@
+<div ng-controller="app.layout.BaseController as vm">
+    <!--<div ng-include="'app/layout/topbar.html'" ng-hide="vm.special"></div>-->
+
+    <div class="am-cf">
+        <div ng-include="'app/layout/sidebar.html'" ng-hide="vm.special"></div>
+        <div ui-view autoscroll="true"></div>
+    </div>
+    <div style="display: none" id="jquery_jplayer_1"></div>
+</div>
+

@@ -1,0 +1,256 @@
+<div class="kk-center">
+    <div class="topbar">
+        <div class="input-group">
+            <span class="am-text-center">
+                <i class="am-icon-search"></i>
+            </span>
+
+            <input ng-model="vm.filiter" type="text" class="am-form-field"/>
+        </div>
+    </div>
+    <div class="content">
+        <div class="list" ng-class="{active:vm.now_id == -2}" ng-click="vm.getFriendsMsg()">
+            <span class="am-text-middle">好友验证消息</span>
+            <i class="circle c-1 am-fr" ng-show="vm.new_tip.ff == true"></i>
+        </div>
+        <div class="list" ng-class="{active:vm.now_id == friend.friend._id}" ng-repeat="friend in vm.friends | filter : {friend : {phone:vm.filiter}} " ng-click="vm.goToTalk($index,friend.friend)">
+            <img class="am-round" ng-src="{{friend.friend.head}}" alt="" width="48" height="48">
+            <span class="am-text-middle">{{friend.friend.nick_name}}</span>
+            <i class="circle c-2 am-fr" ng-show="vm.new_tip[friend.friend._id]"></i>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="kk-right">
+    <div ng-show="!vm.isMsg" class="topbar">
+        {{vm.friend.nick_name}}
+    </div>
+    <div ng-show="!vm.isMsg" class="content">
+
+
+        <div class="left">
+            <div class="window" id="window" ng-style="{height:vm.height}">
+                <div class="am-comments-list am-comments-list-flip J-comment">
+                    <div class="my-comment" ng-style="{'height':vm.getHeight($index)}"  ng-repeat="t in vm.talkRecord.data">
+                        <p ng-if="vm.timeShow($index)" class="text-muted am-text-center J-time">{{vm.moment(t.meta.createAt).format('YYYY-MM-DD H:m')}}</p>
+                        <div class="am-comment" ng-class="{'am-comment-flip':t.from._id == vm.cur_user._id}">
+
+                            <a class="" href="#link-to-user-home">
+                                <img ng-src="{{t.from.head}}" alt="" class="am-comment-avatar" width="48" height="48"/>
+                            </a>
+
+                            <div class="name">
+                                {{t.from.nick_name}}
+                            </div>
+                            <div class="am-comment-main" ng-if="t.type == 'text'" ng-bind-html="vm.html(t.content)">
+                            </div>
+                            <div class="am-comment-main" ng-if="t.type == 'audio'">
+
+                                <audio controls>
+                                    <source src="{{t.content}}" type="audio/mpeg">
+                                    <source src="{{t.content}}" type="audio/ogg">
+                                    <embed height="50" width="100" src="{{t.content}}">
+                                </audio>
+                            </div>
+                            <div class="am-comment-main" ng-if="t.type == 'video'">
+
+                                <video id="really-cool-video" class="video-js vjs-default-skin" controls
+                                       preload="auto" width="640" height="264"
+                                       data-setup='{}'>
+                                    <source src="{{t.content}}" type="video/mp4">
+                                    <p class="vjs-no-js">
+                                        To view this video please enable JavaScript, and consider upgrading to a web browser
+                                        that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                    </p>
+                                </video>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <div class="talk" ng-hide="false">
+                <div class="operation">
+                    <ul>
+                        <li class="dropdown dropup" data-toggle="tooltip" data-placement="bottom" title="表情">
+                            <i class="am-icon-smile-o dropdown-toggle" id="my-emoj"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                            <div class="dropdown-menu clearfix kk-emoj" aria-labelledby="my-emoj">
+                                <div class="col-md-1 one" ng-repeat="e in vm.emoj" ng-if="$index != 0">
+                                    <img ng-src="/emoj/{{e}}" ng-click="vm.addImg('/emoj/' + e)"  alt=""/>
+                                </div>
+                            </div>
+                        </li>
+                        <li data-toggle="tooltip" data-placement="bottom" title="图片">
+                            <div class="am-form-group am-form-file kk-file" style="display: inline;">
+                                <i class="am-icon-picture-o"></i>
+                                <input type="file" multiple="multiple" class="uploader">
+                            </div>
+                        </li>
+
+                        <li class="dropdown dropup" data-toggle="tooltip" data-placement="bottom" title="语音">
+                            <i class="am-icon-microphone dropdown-toggle" id="my-audio"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                            <div class="dropdown-menu voice" aria-labelledby="my-audio">
+                                <div class="saying">
+                                    <div class="level">
+                                    </div>
+                                    <div class="progress"></div>
+                                </div>
+
+                                <div class="am-text-center">
+                                    <button type="button" class="btn btn-default btn-xs"
+                                            onclick="FWRecorder.record('audio', 'audio.mp3');">开始说话</button>
+
+                                    <button type="button" class="btn btn-default btn-xs" ng-click="vm.stopAndSend()">
+                                        结束并发送
+                                    </button>
+
+                                    <div class="upload" style="display: inline-block">
+                                        <div id="flashcontent">
+                                            <p>您的浏览器需要开启javascript并且安装了flash才能使用</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- Hidden form for easy specifying the upload request parameters -->
+                                <form id="uploadForm" name="uploadForm" action="{{vm.action}}" method="post">
+                                    <input name="authenticity_token" value="xxxxx" type="hidden">
+                                    <input name="upload_file[parent_id]" value="1" type="hidden">
+                                    <input name="format" value="json" type="hidden">
+                                </form>
+                            </div>
+                        </li>
+                        <li class="dropdown dropup kk-video" data-toggle="tooltip" data-placement="bottom" title="视频">
+                            <i class="am-icon-video-camera dropdown-toggle" id="my-video"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                            <div class="dropdown-menu" aria-labelledby="my-video">
+                                <video id="myVideo" class="video-js vjs-default-skin"></video>
+
+                            </div>
+                        </li>
+                        <li class="text-muted am-margin-left">
+                            按ctrl+enter发送
+                        </li>
+                        <li class="fr" data-toggle="modal" data-target="#record-model" data-toggle="tooltip" data-placement="bottom" title="聊天记录">
+                            <i class="am-icon-clock-o"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="write" contenteditable="true" ng-model="vm.talk.content">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div ng-show="vm.isMsg" class="topbar isMsg">
+        好友验证消息
+    </div>
+    <div ng-show="vm.isMsg" class="content isMsg">
+        <div class="clearfix msg-box">
+            <div class="am-u-sm-10 am-u-sm-centered " ng-repeat="f in vm.friendsMsg">
+                <p class="text-muted am-text-center am-margin-bottom">{{vm.moment(f.meta.createAt).format('YYYY-MM-DD H:m:s')}}</p>
+                <div class="msg-box-content" ng-if="f.to._id == vm.cur_user._id">
+                    <div class="msg-box-content-hd">
+                        <img class="am-round" ng-src="{{f.from.head}}" alt="">
+                        <span class="am-text-middle">
+                            <span class="am-text-secondary"  ng-mouseover="vm.showOneUser($event,f.from)" ng-mouseout="vm.closeOneUser()">{{f.from.nick_name}}</span>申请加您为好友
+                        </span>
+                        <hr/>
+                        <span> <span class="text-muted">附言：</span>{{f.msg}}</span>
+                    </div>
+                    <div class="msg-box-content-bd">
+                        <!-- Split button -->
+                        <div class="btn-group" ng-if="f.state == 0">
+                            <button type="button" ng-click="vm.beToFriend(f._id,1)" class="btn btn-info btn-sm">同意</button>
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:;" ng-click="vm.beToFriend(f._id,1)">同意</a></li>
+                                <li><a href="javascript:;" ng-click="vm.beToFriend(f._id,2)">拒绝</a></li>
+                            </ul>
+                        </div>
+                        <!--<button ng-if="f.state == 1" type="button" class="btn btn-info btn-sm">会话</button>-->
+                        <span class="text-muted" ng-if="f.state == 1" >已为好友</span>
+                        <span class="text-muted" ng-if="f.state == 2">已拒绝</span>
+                    </div>
+                </div>
+                <div class="msg-box-content" ng-if="f.from._id == vm.cur_user._id">
+                    <div class="msg-box-content-hd">
+                        <img class="am-round" ng-src="{{f.to.head}}" alt="">
+                        <span class="am-text-middle">
+                            我申请加<span class="am-text-secondary" ng-mouseover="vm.showOneUser($event,f.to)" ng-mouseout="vm.closeOneUser()">{{f.to.nick_name}}</span>为好友
+                        </span>
+                        <hr/>
+                        <span> <span class="text-muted">附言：</span>{{f.msg}}</span>
+                    </div>
+                    <div class="msg-box-content-bd">
+                        <!-- Split button -->
+                        <div class="btn-group text-muted" ng-if="f.state == 0">
+                            申请中
+                        </div>
+                        <span class="text-muted" ng-if="f.state == 1" >已为好友</span>
+                        <span class="text-muted" ng-if="f.state == 2">已被拒绝</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="record-model" tabindex="-1" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">聊天记录</h4>
+            </div>
+            <div class="modal-body" style="max-height:300px;overflow-y: auto">
+                <div class="record am-margin-bottom" ng-repeat="m in vm.msgRecord.data">
+                    [{{vm.moment(m.meta.createAt).format('YYYY-MM-DD H:m:s')}}] {{m.from.nick_name}}:
+                    <div ng-if="m.type == 'text'" ng-bind-html="vm.html(m.content)">
+                    </div>
+                    <div ng-if="m.type == 'audio'">
+
+                        <audio controls>
+                            <source src="{{m.content}}" type="audio/mpeg">
+                            <source src="{{m.content}}" type="audio/ogg">
+                            <embed height="50" width="100" src="{{m.content}}">
+                        </audio>
+                    </div>
+                    <div ng-if="m.type == 'video'">
+
+                        <video class="video-js vjs-default-skin" controls
+                               preload="auto" width="640" height="264"
+                               data-setup='{}'>
+                            <source src="{{m.content}}" type="video/mp4">
+                            <p class="vjs-no-js">
+                                To view this video please enable JavaScript, and consider upgrading to a web browser
+                                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                            </p>
+                        </video>
+                    </div>
+                </div>
+                <ul item="vm.cur_page" widget-paginate="vm.msgRecord" widget-paginate-go="vm.goPage" class="am-pagination am-pagination-right"></ul>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,13 @@
+<div class="city-select am-margin-bottom">
+    <select required ng-model="province" ng-options="province as province.text for province in provinces">
+        <option value="">-- 省份  --</option>
+    </select>
+    <select required ng-model="city" ng-options="city as city.text for city in filteredCities">
+        <option value="">-- 城市 --</option>
+    </select>
+    <select required ng-model="district" ng-options="district as district.text for district in filteredDistricts">
+        <option value="">-- 地区 --</option>
+    </select>
+
+    <!--{{selectResult}}-->
+</div>

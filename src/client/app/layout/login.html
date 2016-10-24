@@ -1,0 +1,49 @@
+<div class="kk-header">
+    <div class="am-g am-text-danger">
+        <h1>快聊</h1>
+        <p></p>
+    </div>
+</div>
+<div class="kk-navbar-user">
+    <a class="login" href="#/reg">
+        <i class="am-icon-user"></i> 注册
+    </a>
+    <a class="login" href="#/login">
+        <i class="am-icon-sign-in"></i> 登录
+    </a>
+</div>
+<div class=" kk-login">
+    <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+
+        <h4 class="title">
+            <span>
+                <a class="active" data-pjax="true" href="#/login">登录</a>
+                <b>·</b>
+                <a class="" data-pjax="true" href="#/reg">注册</a>
+            </span>
+        </h4>
+        <form method="post" class="am-form" ng-submit="vm.login()">
+            <div class="am-input-group am-margin-bottom">
+                <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+                <input required type="text" ng-model="vm.user.phone" class="am-form-field" placeholder="请输入账号">
+            </div>
+
+            <div class="am-input-group am-margin-bottom">
+                <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+                <input required type="password" ng-model="vm.user.password" class="am-form-field" placeholder="请输入密码">
+            </div>
+
+            <!--<div class="control-group am-text-left  am-margin-bottom">-->
+                <!--<input type="checkbox" name="" value="true" checked="checked" /> 记住我-->
+                <!--<a class="am-fr" href="/users/password/new">忘记密码</a>-->
+            <!--</div>-->
+
+            <button class="am-btn am-btn-primary am-btn-block am-radius">登录</button>
+
+
+
+        </form>
+        <hr>
+        <p>© 2015 he kai.</p>
+    </div>
+</div>

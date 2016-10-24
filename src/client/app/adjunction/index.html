@@ -1,0 +1,29 @@
+<div class="kk-adjunction kk-rest-right" ng-style="vm.styles">
+
+    <div class="am-g">
+        <div class="am-u-sm-10 am-u-sm-centered search">
+            <p class="am-text-center title"><i class="am-icon-search"></i> 查找</p>
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li ng-click="vm.index = 0" ng-class="{active:vm.index == 0}"><a href="javascript:;">Home</a></li>
+                    <li ng-click="vm.index = 1" role="presentation" ng-class="{active:vm.index == 1}"><a href="javascript:;">Profile</a></li>
+                    <li ng-click="vm.index = 2" role="presentation" ng-class="{active:vm.index == 2}"><a href="javascript:;">Messages</a></li>
+                    <li ng-click="vm.index = 3" role="presentation" ng-class="{active:vm.index == 3}"><a href="javascript:;">Settings</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane" ng-class="{active:vm.index == 0}">0</div>
+                    <div role="tabpanel" class="tab-pane" ng-class="{active:vm.index == 1}">1</div>
+                    <div role="tabpanel" class="tab-pane" ng-class="{active:vm.index == 2}">2</div>
+                    <div role="tabpanel" class="tab-pane" ng-class="{active:vm.index == 3}">3</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

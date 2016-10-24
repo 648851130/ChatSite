@@ -1,0 +1,122 @@
+<div class="kk-user-manage kk-rest-right" ng-style="vm.styles">
+
+    <div class="my-info">
+        <div class="head">
+            <img class="am-round am-img-responsive" ng-src="{{vm.cur_user.head}}" alt="">
+        </div>
+        <h1>{{vm.cur_user.nick_name}} <br/> <small>{{vm.cur_user.desc}}</small></h1>
+    </div>
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li ng-class="{active:vm.index == 0}" ng-click="vm.index = 0"><a href="javascript:;">个人信息</a></li>
+            <li ng-class="{active:vm.index == 1}" ng-click="vm.index = 1"><a href="javascript:;">修改密码</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane" ng-class="{active:vm.index == 0}">
+                <form novalidate class="form-horizontal am-margin-top-xl" name="vm.form">
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">账号</label>
+                        <div class="col-sm-5">
+                            <input required type="text" readonly name="phone" class="form-control" ng-model="vm.user.phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">昵称</label>
+                        <div class="col-sm-5">
+                            <input required type="text" name="nick_name" class="form-control" ng-model="vm.user.nick_name">
+                        </div>
+                        <div class="col-sm-3">
+                            <div ng-show="vm.form.$submitted && vm.form.nick_name.$invalid">
+                                <span class="am-text-danger tip">必填</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">头像</label>
+                        <div class="col-sm-5">
+                            <div class="am-form-group am-form-file">
+                                <button type="button" class="am-btn am-btn-sm am-btn-default"><i
+                                        class="am-icon-cloud-upload"></i>
+                                    选择要上传的头像
+                                </button>
+                                <input type="file" class="uploader">
+                            </div>
+                            <img class="am-img-responsive" ng-src="{{vm.user.head}}" ng-show="vm.user.head">
+                            <br/>
+                            <span class="am-text-danger">{{vm.upload_msg}}</span>
+                            <span class="am-text-danger" ng-show="vm.form.$submitted && !vm.user.head">请上传一个头像</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">年龄</label>
+                        <div class="col-sm-5">
+                            <input ng-pattern="/^[1-9]\d*$/" name="age" type="text" class="form-control" ng-model="vm.user.age">
+                        </div>
+                        <div class="col-sm-3">
+                            <div ng-show="vm.form.$submitted && vm.form.age.$invalid">
+                                <span class="am-text-danger tip">请输入一个大于0的数字</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">简介</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" name="desc" rows="3" ng-model="vm.user.desc"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button ng-click="vm.submit()" class="btn btn-default">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" ng-class="{active:vm.index == 1}">
+                <form novalidate class="form-horizontal am-margin-top-xl" name="vm.form2">
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">旧密码</label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" required type="password" name="opwd" class="form-control" ng-model="vm.nuser.opwd">
+                        </div>
+                        <div class="col-sm-3" ng-show="vm.form2.$submitted && vm.form2.opwd.$invalid">
+                            <span class="am-text-danger">必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">新密码</label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" required type="password" name="password" class="form-control" ng-model="vm.nuser.password">
+                        </div>
+                        <div class="col-sm-3" ng-show="vm.form2.$submitted && vm.form2.password.$invalid">
+                            <span class="am-text-danger">必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label">确认密码</label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" required type="password" name="cpwd" class="form-control" ng-model="vm.nuser.cpwd">
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="am-text-danger" ng-show="vm.form2.$submitted && vm.form2.cpwd.$invalid">必填</span>
+                            <span class="am-text-danger" ng-show="vm.form2.$submitted && vm.nuser.password !== vm.nuser.cpwd">两次密码不一致</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button ng-click="vm.submitPwd()" class="btn btn-default">提交</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
