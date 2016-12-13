@@ -16,17 +16,16 @@
     <link rel="stylesheet" href="/bower_components/video.js/dist/video-js.css" />
     <link rel="stylesheet" href="/bower_components/videojs-record/src/css/videojs.record.css" />
     <!-- endbower -->
-
+  
     <!-- inject:css -->
     <link rel="stylesheet" href="/src/client/styles/style.css">
-    <link rel="stylesheet" href="/src/client/styles/font/iconfont.css">
+    <link rel="stylesheet" href="/src/client/styles/font/
+    .css">
     <!-- endinject -->
 
 </head>
 <body>
 <div class="am-g">
-    <input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput">
-
 
     <div ng-include="'app/layout/base.html'"></div>
 
@@ -91,54 +90,7 @@
 <script src="/bower_components/jPlayer/dist/jplayer/jquery.jplayer.js"></script>
 <!-- endbower -->
 
-<!-- inject:js -->
-<script src="/src/client/app/app.module.js"></script>
-<script src="/src/client/app/adjunction/adjunction.module.js"></script>
-<script src="/src/client/app/core/core.module.js"></script>
-<script src="/src/client/app/user-manage/user.manage.module.js"></script>
-<script src="/src/client/app/rooms/rooms.module.js"></script>
-<script src="/src/client/app/friends/friends.module.js"></script>
-<script src="/src/client/app/layout/layout.module.js"></script>
-<script src="/src/client/app/widgets/widgets.module.js"></script>
-<script src="/src/client/app/blocks/dialog/dialog.module.js"></script>
-<script src="/src/client/app/blocks/load/load.module.js"></script>
-<script src="/src/client/app/blocks/exception/exception.module.js"></script>
-<script src="/src/client/app/blocks/logger/logger.module.js"></script>
-<script src="/src/client/app/blocks/router/router.module.js"></script>
-<script src="/src/client/app/common/socket/socket.module.js"></script>
-<script src="/src/client/app/adjunction/adjunction.route.js"></script>
-<script src="/src/client/app/adjunction/index.controller.js"></script>
-<script src="/src/client/app/core/config.js"></script>
-<script src="/src/client/app/core/constants.js"></script>
-<script src="/src/client/app/core/core.filter.js"></script>
-<script src="/src/client/app/core/core.route.js"></script>
-<script src="/src/client/app/core/dataservice.js"></script>
-<script src="/src/client/app/user-manage/index.controller.js"></script>
-<script src="/src/client/app/user-manage/user.manage.route.js"></script>
-<script src="/src/client/app/user-manage/user.manage.service.js"></script>
-<script src="/src/client/app/rooms/index.controller.js"></script>
-<script src="/src/client/app/rooms/room.controller.js"></script>
-<script src="/src/client/app/rooms/rooms.route.js"></script>
-<script src="/src/client/app/rooms/rooms.service.js"></script>
-<script src="/src/client/app/friends/friends.route.js"></script>
-<script src="/src/client/app/friends/friends.service.js"></script>
-<script src="/src/client/app/friends/index.controller.js"></script>
-<script src="/src/client/app/layout/base.controller.js"></script>
-<script src="/src/client/app/layout/base.route.js"></script>
-<script src="/src/client/app/layout/layout.service.js"></script>
-<script src="/src/client/app/layout/login.controller.js"></script>
-<script src="/src/client/app/layout/register.controller.js"></script>
-<script src="/src/client/app/layout/sidebar.controller.js"></script>
-<script src="/src/client/app/widgets/widget-city-select.directive.js"></script>
-<script src="/src/client/app/widgets/widget-paginate.directive.js"></script>
-<script src="/src/client/app/blocks/dialog/dialog.js"></script>
-<script src="/src/client/app/blocks/load/load.js"></script>
-<script src="/src/client/app/blocks/exception/exception-handler.provider.js"></script>
-<script src="/src/client/app/blocks/exception/exception.js"></script>
-<script src="/src/client/app/blocks/logger/logger.js"></script>
-<script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
-<script src="/src/client/app/common/socket/socket.js"></script>
-<!-- endinject -->
+<script data-main="./app/main.js" src="//cdn.bootcss.com/require.js/2.3.2/require.js"></script>
 
 <script src="/src/client/javascript/swfobject.js"></script>
 <script src="/src/client/javascript/recorder.js"></script>
